@@ -7,7 +7,7 @@
   },
 
   "dependencies": {
-    "Invio.Extensions.DependencyInjection": "0.1.0",
+    "Invio.Extensions.DependencyInjection": "0.1.1",
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
     "dotnet-test-xunit": "2.2.0-*",
     "xunit": "2.2.0-*",

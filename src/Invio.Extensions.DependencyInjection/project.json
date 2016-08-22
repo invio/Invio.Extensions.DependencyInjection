@@ -1,13 +1,24 @@
 {
+  "name": "Invio.Extensions.DependencyInjection",
+  "title": "Invio Extensions to ASP.NET Dependency Injection Framework",
   "version": "0.1.1",
+  "authors": [ "Brian Caruso <brian@invioinc.com>" ],
 
   "buildOptions": {
     "debugType": "portable"
   },
 
   "packOptions": {
+    "summary": "Extensions for DependencyInjection in ASP.NET Core",
+    "tags": [ "dependencyinjection", "di" ],
+    "owners": [ "Invio, Incorporated" ],
     "licenseUrl": "https://github.com/invio/Invio.Extensions.DependencyInjection/blob/master/LICENSE.txt",
-    "projectUrl": "https://github.com/invio/Invio.Extensions.DependencyInjection/"
+    "projectUrl": "https://github.com/invio/Invio.Extensions.DependencyInjection/",
+    "requireLicenseAcceptance": false,
+    "repository": {
+      "type": "git",
+      "url": "git@github.com:invio/Invio.Extensions.DependencyInjection"
+    }
   },
 
   "dependencies": {

@@ -7,25 +7,60 @@ namespace Invio.Extensions.DependencyInjection {
 
     public class ServiceCollectionFactoryExtensionsTests {
 
-        [Fact]
-        public void AddTransientWithFactory_StaticallyTyped_NullCollection() {
+        public static TheoryData BasicImplementations {
+            get {
+                var serviceType = typeof(IFakeService);
+                var factoryType = typeof(FakeServiceFactory);
+
+                return new TheoryData<Func<IServiceCollection, IServiceCollection>> {
+                    { c => c.AddTransientWithFactory<IFakeService, FakeServiceFactory>() },
+                    { c => c.AddTransientWithFactory(serviceType, factoryType) },
+                    { c => c.AddScopedWithFactory<IFakeService, FakeServiceFactory>() },
+                    { c => c.AddScopedWithFactory(serviceType, factoryType) },
+                    { c => c.AddSingletonWithFactory<IFakeService, FakeServiceFactory>() },
+                    { c => c.AddSingletonWithFactory(serviceType, factoryType) }
+                };
+            }
+        }
+
+        public static TheoryData DependentImplementations {
+            get {
+                var serviceType = typeof(IFakeService);
+                var factoryType = typeof(FakeDependentServiceFactory);
+
+                return new TheoryData<Func<IServiceCollection, IServiceCollection>> {
+                    { c => c.AddTransientWithFactory<IFakeService, FakeDependentServiceFactory>() },
+                    { c => c.AddTransientWithFactory(serviceType, factoryType) },
+                    { c => c.AddScopedWithFactory<IFakeService, FakeDependentServiceFactory>() },
+                    { c => c.AddScopedWithFactory(serviceType, factoryType) },
+                    { c => c.AddSingletonWithFactory<IFakeService, FakeDependentServiceFactory>() },
+                    { c => c.AddSingletonWithFactory(serviceType, factoryType) }
+                };
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(BasicImplementations))]
+        [MemberData(nameof(DependentImplementations))]
+        public void AddWithFactory_NullCollection(
+            Func<IServiceCollection, IServiceCollection> addWithFactory) {
 
             // Arrange
             IServiceCollection collection = null;
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(
-                () => collection.AddTransientWithFactory<IFakeService, FakeDependentServiceFactory>()
+                () => addWithFactory(collection)
             );
         }
 
-        [Fact]
-        public void AddTransientWithFactory_StaticallyTyped_NoInnerDependency() {
+        [Theory]
+        [MemberData(nameof(BasicImplementations))]
+        public void AddWithFactory_BasicImplementations(
+            Func<IServiceCollection, IServiceCollection> addWithFactory) {
 
             // Arrange
-            var collection = new ServiceCollection();
-            collection.AddTransientWithFactory<IFakeService, FakeServiceFactory>();
-
+            var collection = addWithFactory(new ServiceCollection());
             var provider = collection.BuildServiceProvider();
 
             // Act
@@ -36,14 +71,14 @@ namespace Invio.Extensions.DependencyInjection {
             Assert.IsType<FakeService>(service);
         }
 
-        [Fact]
-        public void AddTransientWithFactory_StaticallyTyped_WithInnerDependency() {
+        [Theory]
+        [MemberData(nameof(DependentImplementations))]
+        public void AddWithFactory_DependentImplementations(
+            Func<IServiceCollection, IServiceCollection> addWithFactory) {
 
             // Arrange
-            var collection = new ServiceCollection();
+            var collection = addWithFactory(new ServiceCollection());
             collection.AddTransient<IFakeFactoryDependency, FakeFactoryDependency>();
-            collection.AddTransientWithFactory<IFakeService, FakeDependentServiceFactory>();
-
             var provider = collection.BuildServiceProvider();
 
             // Act

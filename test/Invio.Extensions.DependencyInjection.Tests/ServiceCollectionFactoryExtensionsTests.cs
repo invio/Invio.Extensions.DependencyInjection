@@ -15,10 +15,15 @@ namespace Invio.Extensions.DependencyInjection {
                 return new TheoryData<Func<IServiceCollection, IServiceCollection>> {
                     { c => c.AddTransientWithFactory<IFakeService, FakeServiceFactory>() },
                     { c => c.AddTransientWithFactory(serviceType, factoryType) },
+                    { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Transient) },
+
                     { c => c.AddScopedWithFactory<IFakeService, FakeServiceFactory>() },
                     { c => c.AddScopedWithFactory(serviceType, factoryType) },
+                    { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Scoped) },
+
                     { c => c.AddSingletonWithFactory<IFakeService, FakeServiceFactory>() },
-                    { c => c.AddSingletonWithFactory(serviceType, factoryType) }
+                    { c => c.AddSingletonWithFactory(serviceType, factoryType) },
+                    { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Singleton) }
                 };
             }
         }
@@ -31,10 +36,15 @@ namespace Invio.Extensions.DependencyInjection {
                 return new TheoryData<Func<IServiceCollection, IServiceCollection>> {
                     { c => c.AddTransientWithFactory<IFakeService, FakeDependentServiceFactory>() },
                     { c => c.AddTransientWithFactory(serviceType, factoryType) },
+                    { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Transient) },
+
                     { c => c.AddScopedWithFactory<IFakeService, FakeDependentServiceFactory>() },
                     { c => c.AddScopedWithFactory(serviceType, factoryType) },
+                    { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Scoped) },
+
                     { c => c.AddSingletonWithFactory<IFakeService, FakeDependentServiceFactory>() },
-                    { c => c.AddSingletonWithFactory(serviceType, factoryType) }
+                    { c => c.AddSingletonWithFactory(serviceType, factoryType) },
+                    { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Singleton) }
                 };
             }
         }

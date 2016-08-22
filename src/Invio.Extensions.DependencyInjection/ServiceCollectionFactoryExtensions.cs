@@ -20,7 +20,7 @@ namespace Invio.Extensions.DependencyInjection {
             Type serviceType,
             Type factoryType) {
 
-            return Add(collection, serviceType, factoryType, ServiceLifetime.Transient);
+            return collection.AddWithFactory(serviceType, factoryType, ServiceLifetime.Transient);
         }
 
         public static IServiceCollection AddScopedWithFactory<TService, TServiceFactory>(
@@ -36,7 +36,7 @@ namespace Invio.Extensions.DependencyInjection {
             Type serviceType,
             Type factoryType) {
 
-            return Add(collection, serviceType, factoryType, ServiceLifetime.Scoped);
+            return collection.AddWithFactory(serviceType, factoryType, ServiceLifetime.Scoped);
         }
 
         public static IServiceCollection AddSingletonWithFactory<TService, TServiceFactory>(
@@ -44,12 +44,7 @@ namespace Invio.Extensions.DependencyInjection {
                 where TService : class
                 where TServiceFactory : class, IFactory<TService> {
 
-            return Add(
-                collection,
-                typeof(TService),
-                typeof(TServiceFactory),
-                ServiceLifetime.Singleton
-            );
+            return collection.AddSingletonWithFactory(typeof(TService), typeof(TServiceFactory));
         }
 
         public static IServiceCollection AddSingletonWithFactory(
@@ -57,11 +52,11 @@ namespace Invio.Extensions.DependencyInjection {
             Type serviceType,
             Type factoryType) {
 
-            return Add(collection, serviceType, factoryType, ServiceLifetime.Singleton);
+            return collection.AddWithFactory(serviceType, factoryType, ServiceLifetime.Singleton);
         }
 
-        private static IServiceCollection Add(
-            IServiceCollection collection,
+        public static IServiceCollection AddWithFactory(
+            this IServiceCollection collection,
             Type serviceType,
             Type factoryType,
             ServiceLifetime lifetime) {

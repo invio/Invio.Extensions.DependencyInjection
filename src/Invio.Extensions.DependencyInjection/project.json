@@ -5,6 +5,11 @@
     "debugType": "portable"
   },
 
+  "packOptions": {
+    "licenseUrl": "https://github.com/invio/Invio.Extensions.DependencyInjection/blob/master/LICENSE.txt",
+    "projectUrl": "https://github.com/invio/Invio.Extensions.DependencyInjection/"
+  },
+
   "dependencies": {
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
     "System.Reflection.TypeExtensions": "4.1.0"

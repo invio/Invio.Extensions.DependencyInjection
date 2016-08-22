@@ -99,6 +99,67 @@ namespace Invio.Extensions.DependencyInjection {
             Assert.IsType<FakeService>(service);
         }
 
+        public static TheoryData RuntimeTypedImplementations {
+            get {
+                return new TheoryData<Func<IServiceCollection, Type, Type, IServiceCollection>> {
+                    {
+                        (collection, service, factory) =>
+                            collection.AddTransientWithFactory(service, factory)
+                    },
+                    {
+                        (collection, service, factory) =>
+                            collection.AddWithFactory(service, factory, ServiceLifetime.Transient)
+                    },
+                    {
+                        (collection, service, factory) =>
+                            collection.AddScopedWithFactory(service, factory)
+                    },
+                    {
+                        (collection, service, factory) =>
+                            collection.AddWithFactory(service, factory, ServiceLifetime.Scoped)
+                    },
+                    {
+                        (collection, service, factory) =>
+                            collection.AddSingletonWithFactory(service, factory)
+                    },
+                    {
+                        (collection, service, factory) =>
+                            collection.AddWithFactory(service, factory, ServiceLifetime.Singleton)
+                    }
+                };
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(RuntimeTypedImplementations))]
+        public void AddWithFactory_NullServiceType(
+            Func<IServiceCollection, Type, Type, IServiceCollection> addWithFactory) {
+
+            // Arrange
+            var collection = new ServiceCollection();
+            var factoryType = typeof(FakeServiceFactory);
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(
+                () => addWithFactory(collection, null, factoryType)
+            );
+        }
+
+        [Theory]
+        [MemberData(nameof(RuntimeTypedImplementations))]
+        public void AddWithFactory_NullFactoryType(
+            Func<IServiceCollection, Type, Type, IServiceCollection> addWithFactory) {
+
+            // Arrange
+            var collection = new ServiceCollection();
+            var serviceType = typeof(IFakeService);
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(
+                () => addWithFactory(collection, serviceType, null)
+            );
+        }
+
     }
 
 }

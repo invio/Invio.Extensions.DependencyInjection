@@ -62,4 +62,4 @@ $revision = "{0:D4}" -f [convert]::ToInt32($revision, 10)
 
 exec { & dotnet test .\test\Invio.Extensions.DependencyInjection.Tests -c Release }
 
-exec { & dotnet pack .\src\Invio.Extensions.DependencyInjection -c Release -o .\artifacts --version-suffix=$revision }
+exec { & dotnet pack .\src\Invio.Extensions.DependencyInjection -c Release -o .\artifacts }

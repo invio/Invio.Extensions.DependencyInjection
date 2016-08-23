@@ -7,7 +7,7 @@ namespace Invio.Extensions.DependencyInjection {
     /// with a implementation of <see cref="IServiceCollection" />.
     /// </summary>
     /// <typeparam name="TService">The type of the service the factory provides.</typeparam>
-    public interface IFactory<TService> {
+    public interface IFactory<out TService> {
 
         /// <summary>
         /// Provides an object of the type <typeparamref name="TService"/>. It will

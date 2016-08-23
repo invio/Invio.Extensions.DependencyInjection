@@ -3,15 +3,16 @@
 
   "buildOptions": {
     "debugType": "portable",
-    "preserveCompilationContext": true
   },
 
   "dependencies": {
-    "Invio.Extensions.DependencyInjection": "0.1.1",
+    "Invio.Extensions.DependencyInjection": {
+      "version": "0.1.1",
+      "target": "project"
+    },
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
     "dotnet-test-xunit": "2.2.0-*",
-    "xunit": "2.2.0-*",
-    "Moq": "4.6.36-alpha"
+    "xunit": "2.2.0-*"
   },
 
   "testRunner": "xunit",
@@ -28,6 +29,8 @@
         "dotnet5.4",
         "portable-net451+win8"
       ]
-    }
+    },
+    "net46": {}
   }
+
 }

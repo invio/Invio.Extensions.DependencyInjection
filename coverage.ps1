@@ -3,4 +3,4 @@ nuget install coveralls.net -Version 0.7.0 -OutputDirectory tools
 
 .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""test\Invio.Extensions.DependencyInjection.Tests\project.json"" -f net46" -register:user -filter:"+[*]* -[xunit*]*" -returntargetcode -output:opencover_results.xml
 
-.\tools\coveralls.net.0.412\tools\csmacnz.Coveralls.exe --opencover -i .\opencover_results.xml
+.\tools\coveralls.net.0.7.0\tools\csmacnz.Coveralls.exe --opencover -i .\opencover_results.xml

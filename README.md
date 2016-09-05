@@ -3,6 +3,7 @@
 [![Appveyor](https://ci.appveyor.com/api/projects/status/26pr0w6y0jw2p3rn/branch/master?svg=true)](https://ci.appveyor.com/project/carusology/invio-extensions-dependencyinjection/branch/master)
 [![Travis CI](https://img.shields.io/travis/invio/Invio.Extensions.DependencyInjection.svg?maxAge=3600&label=travis)](https://travis-ci.org/invio/Invio.Extensions.DependencyInjection)
 [![NuGet](https://img.shields.io/nuget/v/Invio.Extensions.DependencyInjection.svg)](https://www.nuget.org/packages/Invio.Extensions.DependencyInjection/)
+[![Coverage](https://coveralls.io/repos/github/invio/Invio.Extensions.DependencyInjection/badge.svg)](https://coveralls.io/github/invio/Invio.Extensions.DependencyInjection)
 
 This library implements the [factory pattern](https://en.wikipedia.org/wiki/Factory_\(object-oriented\_programming\)) as extension methods to [Microsoft's ASP.NET Core Dependency Injection library](https://docs.asp.net/en/latest/fundamentals/dependency-injection.html). It is [.NET Standard 1.3](https://docs.microsoft.com/en-us/dotnet/articles/standard/library) compliant for cross-platform use.
 

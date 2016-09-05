@@ -232,3 +232,8 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# Code Coverage
+tools/
+opencover_results.xml
+**/project.json.bak

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Invio.Extensions.DependencyInjection.Fakes;
 using Xunit;
@@ -33,7 +35,10 @@ namespace Invio.Extensions.DependencyInjection {
                 var serviceType = typeof(IFakeService);
                 var factoryType = typeof(FakeDependentServiceFactory);
 
-                return new TheoryData<Func<IServiceCollection, IServiceCollection>> {
+                Func<IServiceCollection, IServiceCollection> addDependentService =
+                    c => c.AddTransient<IFakeFactoryDependency, FakeFactoryDependency>();
+
+                var cases = new List<Func<IServiceCollection, IServiceCollection>> {
                     { c => c.AddTransientWithFactory<IFakeService, FakeDependentServiceFactory>() },
                     { c => c.AddTransientWithFactory(serviceType, factoryType) },
                     { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Transient) },
@@ -46,6 +51,13 @@ namespace Invio.Extensions.DependencyInjection {
                     { c => c.AddSingletonWithFactory(serviceType, factoryType) },
                     { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Singleton) }
                 };
+
+                var theoryData = new TheoryData<Func<IServiceCollection, IServiceCollection>>();
+                foreach (var caseFunc in cases) {
+                    theoryData.Add(c => caseFunc(addDependentService(c)));
+                }
+
+                return theoryData;
             }
         }
 
@@ -66,7 +78,8 @@ namespace Invio.Extensions.DependencyInjection {
 
         [Theory]
         [MemberData(nameof(BasicImplementations))]
-        public void AddWithFactory_BasicImplementations(
+        [MemberData(nameof(DependentImplementations))]
+        public void AddWithFactory_GetService(
             Func<IServiceCollection, IServiceCollection> addWithFactory) {
 
             // Arrange
@@ -81,22 +94,38 @@ namespace Invio.Extensions.DependencyInjection {
             Assert.IsType<FakeService>(service);
         }
 
+        /// <summary>
+        /// Considering the reflection that is being executed to run the factory.
+        /// This test ensures that we can resolve via this method around 100K without
+        /// taking more than a 200 ms penalty.
+        ///
+        /// When running this locally any of the transient calls  were around 52 ms for 100K, and
+        /// everything else was just at 11 ms for 100K.
+        ///
+        /// Invoke is better for maintenance, but poor for performance. If this becomes a problem then
+        /// it is likely that we'll need to switch to delegates.
+        /// http://blogs.msmvps.com/jonskeet/2008/08/09/making-reflection-fly-and-exploring-delegates/
+        /// </summary>
         [Theory]
+        [MemberData(nameof(BasicImplementations))]
         [MemberData(nameof(DependentImplementations))]
-        public void AddWithFactory_DependentImplementations(
+        public void GetService_ExecutionTime(
             Func<IServiceCollection, IServiceCollection> addWithFactory) {
+            const int executionCount = 100000;
 
             // Arrange
             var collection = addWithFactory(new ServiceCollection());
-            collection.AddTransient<IFakeFactoryDependency, FakeFactoryDependency>();
             var provider = collection.BuildServiceProvider();
 
             // Act
-            var service = provider.GetService<IFakeService>();
+            var stopWatch = Stopwatch.StartNew();
+            for (var i = 0; i < executionCount; i++) {
+                provider.GetService<IFakeService>();
+            }
+            stopWatch.Stop();
 
             // Assert
-            Assert.NotNull(service);
-            Assert.IsType<FakeService>(service);
+            Assert.True(stopWatch.ElapsedMilliseconds < 200);
         }
 
         public static TheoryData RuntimeTypedImplementations {

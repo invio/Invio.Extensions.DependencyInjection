@@ -1,6 +1,6 @@
 # Invio.Extensions.DependencyInjection
 
-[![Appveyor](https://ci.appveyor.com/api/projects/status/26pr0w6y0jw2p3rn/branch/master?svg=true)](https://ci.appveyor.com/project/carusology/invio-extensions-dependencyinjection/branch/master)
+[![Appveyor](https://ci.appveyor.com/api/projects/status/8rvui9qak3r6qwe9/branch/master?svg=true)](https://ci.appveyor.com/project/invio/invio-extensions-dependencyinjection/branch/master)
 [![Travis CI](https://img.shields.io/travis/invio/Invio.Extensions.DependencyInjection.svg?maxAge=3600&label=travis)](https://travis-ci.org/invio/Invio.Extensions.DependencyInjection)
 [![NuGet](https://img.shields.io/nuget/v/Invio.Extensions.DependencyInjection.svg)](https://www.nuget.org/packages/Invio.Extensions.DependencyInjection/)
 [![Coverage](https://coveralls.io/repos/github/invio/Invio.Extensions.DependencyInjection/badge.svg?branch=master)](https://coveralls.io/github/invio/Invio.Extensions.DependencyInjection?branch=master)

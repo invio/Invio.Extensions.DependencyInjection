@@ -1,5 +1,5 @@
 {
-  "version": "0.2.2",
+  "version": "0.2.3",
 
   "buildOptions": {
     "debugType": "portable",
@@ -7,10 +7,11 @@
 
   "dependencies": {
     "Invio.Extensions.DependencyInjection": {
-      "version": "0.2.2",
+      "version": "0.2.3",
       "target": "project"
     },
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
+    "Invio.Xunit": "0.1.0",
     "dotnet-test-xunit": "2.2.0-*",
     "xunit": "2.2.0-*"
   },

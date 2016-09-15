@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Invio.Extensions.DependencyInjection.Fakes;
+using Invio.Xunit;
 using Xunit;
 
 namespace Invio.Extensions.DependencyInjection {
@@ -33,7 +36,10 @@ namespace Invio.Extensions.DependencyInjection {
                 var serviceType = typeof(IFakeService);
                 var factoryType = typeof(FakeDependentServiceFactory);
 
-                return new TheoryData<Func<IServiceCollection, IServiceCollection>> {
+                Func<IServiceCollection, IServiceCollection> addDependentService =
+                    c => c.AddTransient<IFakeFactoryDependency, FakeFactoryDependency>();
+
+                var cases = new List<Func<IServiceCollection, IServiceCollection>> {
                     { c => c.AddTransientWithFactory<IFakeService, FakeDependentServiceFactory>() },
                     { c => c.AddTransientWithFactory(serviceType, factoryType) },
                     { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Transient) },
@@ -46,9 +52,17 @@ namespace Invio.Extensions.DependencyInjection {
                     { c => c.AddSingletonWithFactory(serviceType, factoryType) },
                     { c => c.AddWithFactory(serviceType, factoryType, ServiceLifetime.Singleton) }
                 };
+
+                var theoryData = new TheoryData<Func<IServiceCollection, IServiceCollection>>();
+                foreach (var caseFunc in cases) {
+                    theoryData.Add(c => caseFunc(addDependentService(c)));
+                }
+
+                return theoryData;
             }
         }
 
+        [UnitTest]
         [Theory]
         [MemberData(nameof(BasicImplementations))]
         [MemberData(nameof(DependentImplementations))]
@@ -64,31 +78,15 @@ namespace Invio.Extensions.DependencyInjection {
             );
         }
 
+        [UnitTest]
         [Theory]
         [MemberData(nameof(BasicImplementations))]
-        public void AddWithFactory_BasicImplementations(
-            Func<IServiceCollection, IServiceCollection> addWithFactory) {
-
-            // Arrange
-            var collection = addWithFactory(new ServiceCollection());
-            var provider = collection.BuildServiceProvider();
-
-            // Act
-            var service = provider.GetService<IFakeService>();
-
-            // Assert
-            Assert.NotNull(service);
-            Assert.IsType<FakeService>(service);
-        }
-
-        [Theory]
         [MemberData(nameof(DependentImplementations))]
-        public void AddWithFactory_DependentImplementations(
+        public void AddWithFactory_GetService(
             Func<IServiceCollection, IServiceCollection> addWithFactory) {
 
             // Arrange
             var collection = addWithFactory(new ServiceCollection());
-            collection.AddTransient<IFakeFactoryDependency, FakeFactoryDependency>();
             var provider = collection.BuildServiceProvider();
 
             // Act
@@ -130,6 +128,7 @@ namespace Invio.Extensions.DependencyInjection {
             }
         }
 
+        [UnitTest]
         [Theory]
         [MemberData(nameof(RuntimeTypedImplementations))]
         public void AddWithFactory_NullServiceType(
@@ -145,6 +144,7 @@ namespace Invio.Extensions.DependencyInjection {
             );
         }
 
+        [UnitTest]
         [Theory]
         [MemberData(nameof(RuntimeTypedImplementations))]
         public void AddWithFactory_NullFactoryType(

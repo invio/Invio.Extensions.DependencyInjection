@@ -97,41 +97,6 @@ namespace Invio.Extensions.DependencyInjection {
             Assert.IsType<FakeService>(service);
         }
 
-        /// <summary>
-        /// Considering the reflection that is being executed to run the factory.
-        /// This test ensures that we can resolve via this method around 100K without
-        /// taking more than a 200 ms penalty.
-        ///
-        /// When running this locally any of the transient calls  were around 52 ms for 100K, and
-        /// everything else was just at 11 ms for 100K.
-        ///
-        /// Invoke is better for maintenance, but poor for performance. If this becomes a problem then
-        /// it is likely that we'll need to switch to delegates.
-        /// http://blogs.msmvps.com/jonskeet/2008/08/09/making-reflection-fly-and-exploring-delegates/
-        /// </summary>
-        [BenchmarkTest]
-        [Theory]
-        [MemberData(nameof(BasicImplementations))]
-        [MemberData(nameof(DependentImplementations))]
-        public void GetService_ExecutionTime(
-            Func<IServiceCollection, IServiceCollection> addWithFactory) {
-            const int executionCount = 100000;
-
-            // Arrange
-            var collection = addWithFactory(new ServiceCollection());
-            var provider = collection.BuildServiceProvider();
-
-            // Act
-            var stopWatch = Stopwatch.StartNew();
-            for (var i = 0; i < executionCount; i++) {
-                provider.GetService<IFakeService>();
-            }
-            stopWatch.Stop();
-
-            // Assert
-            Assert.True(stopWatch.ElapsedMilliseconds < 450);
-        }
-
         public static TheoryData RuntimeTypedImplementations {
             get {
                 return new TheoryData<Func<IServiceCollection, Type, Type, IServiceCollection>> {

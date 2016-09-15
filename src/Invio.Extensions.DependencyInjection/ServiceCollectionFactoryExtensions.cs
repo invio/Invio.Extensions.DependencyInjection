@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Concurrent;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using Invio.Extensions.Reflection;
 
 namespace Invio.Extensions.DependencyInjection {
 
@@ -142,6 +145,9 @@ namespace Invio.Extensions.DependencyInjection {
             return collection.AddWithFactory(serviceType, factoryType, ServiceLifetime.Singleton);
         }
 
+        private static Func<object, object> provideDelegate =
+            typeof(IFactory<object>).GetMethod(nameof(IFactory<object>.Provide), Type.EmptyTypes).CreateFunc0();
+
         /// <summary>
         /// Adds a service of the type specified in <paramref name="serviceType"/> that
         /// will be hydrated via a factory specified in <paramref name="factoryType"/>
@@ -163,8 +169,6 @@ namespace Invio.Extensions.DependencyInjection {
             Type factoryType,
             ServiceLifetime lifetime) {
 
-            const string provideMethodName = nameof(IFactory<object>.Provide);
-
             if (collection == null) {
                 throw new ArgumentNullException(nameof(collection));
             } else if (serviceType == null) {
@@ -180,13 +184,7 @@ namespace Invio.Extensions.DependencyInjection {
                 (IServiceProvider provider) => {
                     var factory = provider.GetRequiredService(factoryType);
 
-                    var service =
-                        factory
-                            .GetType()
-                            .GetMethod(provideMethodName, Type.EmptyTypes)
-                            .Invoke(factory, null);
-
-                    return service;
+                    return provideDelegate(factory);
                 },
                 lifetime
             );

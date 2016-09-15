@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Invio.Extensions.DependencyInjection.Fakes;
+using Invio.Xunit;
 using Xunit;
 
 namespace Invio.Extensions.DependencyInjection {
@@ -61,6 +62,7 @@ namespace Invio.Extensions.DependencyInjection {
             }
         }
 
+        [UnitTest]
         [Theory]
         [MemberData(nameof(BasicImplementations))]
         [MemberData(nameof(DependentImplementations))]
@@ -76,6 +78,7 @@ namespace Invio.Extensions.DependencyInjection {
             );
         }
 
+        [UnitTest]
         [Theory]
         [MemberData(nameof(BasicImplementations))]
         [MemberData(nameof(DependentImplementations))]
@@ -106,6 +109,7 @@ namespace Invio.Extensions.DependencyInjection {
         /// it is likely that we'll need to switch to delegates.
         /// http://blogs.msmvps.com/jonskeet/2008/08/09/making-reflection-fly-and-exploring-delegates/
         /// </summary>
+        [BenchmarkTest]
         [Theory]
         [MemberData(nameof(BasicImplementations))]
         [MemberData(nameof(DependentImplementations))]
@@ -125,7 +129,7 @@ namespace Invio.Extensions.DependencyInjection {
             stopWatch.Stop();
 
             // Assert
-            Assert.True(stopWatch.ElapsedMilliseconds < 200);
+            Assert.True(stopWatch.ElapsedMilliseconds < 450);
         }
 
         public static TheoryData RuntimeTypedImplementations {
@@ -159,6 +163,7 @@ namespace Invio.Extensions.DependencyInjection {
             }
         }
 
+        [UnitTest]
         [Theory]
         [MemberData(nameof(RuntimeTypedImplementations))]
         public void AddWithFactory_NullServiceType(
@@ -174,6 +179,7 @@ namespace Invio.Extensions.DependencyInjection {
             );
         }
 
+        [UnitTest]
         [Theory]
         [MemberData(nameof(RuntimeTypedImplementations))]
         public void AddWithFactory_NullFactoryType(

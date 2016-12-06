@@ -22,9 +22,9 @@
   },
 
   "dependencies": {
-    "Microsoft.Extensions.DependencyInjection": "1.0.0",
-    "System.Reflection.TypeExtensions": "4.1.0",
-    "Invio.Extensions.Reflection": "0.2.0"
+    "Microsoft.Extensions.DependencyInjection": "1.1.0",
+    "System.Reflection.TypeExtensions": "4.3.0",
+    "Invio.Extensions.Reflection": "1.0.1"
   },
 
   "frameworks": {

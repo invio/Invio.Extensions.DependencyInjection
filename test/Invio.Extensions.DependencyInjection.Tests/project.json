@@ -1,17 +1,12 @@
 {
-  "version": "0.2.3",
-
   "buildOptions": {
     "debugType": "portable",
   },
 
   "dependencies": {
-    "Invio.Extensions.DependencyInjection": {
-      "version": "0.2.3",
-      "target": "project"
-    },
-    "Microsoft.Extensions.DependencyInjection": "1.0.0",
-    "Invio.Xunit": "0.1.0",
+    "Invio.Extensions.DependencyInjection": { "target": "project" },
+    "Microsoft.Extensions.DependencyInjection": "1.1.0",
+    "Invio.Xunit": "0.1.1",
     "dotnet-test-xunit": "2.2.0-*",
     "xunit": "2.2.0-*"
   },
@@ -22,7 +17,7 @@
     "netcoreapp1.0": {
       "dependencies": {
         "Microsoft.NETCore.App": {
-          "version": "1.0.0",
+          "version": "1.1.0",
           "type": "platform"
         }
       },

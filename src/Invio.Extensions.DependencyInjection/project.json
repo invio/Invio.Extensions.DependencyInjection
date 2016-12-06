@@ -1,7 +1,7 @@
 {
   "name": "Invio.Extensions.DependencyInjection",
   "title": "Invio Extensions to ASP.NET Dependency Injection Framework",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "authors": [ "Brian Caruso <brian@invioinc.com>" ],
 
   "buildOptions": {

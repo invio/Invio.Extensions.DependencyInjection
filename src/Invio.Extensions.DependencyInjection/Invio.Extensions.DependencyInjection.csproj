@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyTitle>Invio Extensions to ASP.NET Dependency Injection Framework</AssemblyTitle>
-    <VersionPrefix>0.2.4</VersionPrefix>
+    <VersionPrefix>0.2.5</VersionPrefix>
     <Authors>Brian Caruso &lt;brian@invioinc.com&gt;</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <DebugType>full</DebugType>

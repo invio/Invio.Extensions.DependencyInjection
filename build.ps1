@@ -52,15 +52,12 @@ if(Test-Path .\artifacts) { Remove-Item .\artifacts -Force -Recurse }
 
 EnsurePsbuildInstalled
 
-exec { & dotnet restore .\src\Invio.Extensions.DependencyInjection }
-exec { & dotnet restore .\test\Invio.Extensions.DependencyInjection.Tests }
-
-exec { & dotnet build .\src\Invio.Extensions.DependencyInjection }
-exec { & dotnet build .\test\Invio.Extensions.DependencyInjection.Tests }
+exec { & dotnet restore }
+exec { & dotnet build }
 
 $revision = @{ $true = $env:APPVEYOR_BUILD_NUMBER; $false = 1 }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
 $revision = "{0:D4}" -f [convert]::ToInt32($revision, 10)
 
 exec { & dotnet test .\test\Invio.Extensions.DependencyInjection.Tests\Invio.Extensions.DependencyInjection.Tests.csproj -c Release }
 
-exec { & dotnet pack .\src\Invio.Extensions.DependencyInjection -c Release -o ..\..\artifacts }
+exec { & dotnet pack -c Release -o ..\..\artifacts }

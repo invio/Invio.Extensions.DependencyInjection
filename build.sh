@@ -9,9 +9,8 @@ if [ -d $artifactsFolder ]; then
   rm -R $artifactsFolder
 fi
 
-dotnet restore ./src/Invio.Extensions.DependencyInjection
-dotnet restore ./test/Invio.Extensions.DependencyInjection.Tests
+dotnet restore
 
 dotnet test ./test/Invio.Extensions.DependencyInjection.Tests/Invio.Extensions.DependencyInjection.Tests.csproj -c Release -f netcoreapp1.0
 
-dotnet pack ./src/Invio.Extensions.DependencyInjection -c Release -o ../../artifacts
+dotnet pack -c Release -o ../../artifacts

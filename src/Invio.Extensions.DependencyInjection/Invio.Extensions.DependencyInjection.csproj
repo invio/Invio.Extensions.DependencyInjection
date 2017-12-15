@@ -4,7 +4,7 @@
     <AssemblyTitle>Invio Extensions to ASP.NET Dependency Injection Framework</AssemblyTitle>
     <VersionPrefix>0.2.7</VersionPrefix>
     <Authors>Brian Caruso &lt;brian@invioinc.com&gt;</Authors>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>portable</DebugType>
     <AssemblyName>Invio.Extensions.DependencyInjection</AssemblyName>
     <PackageId>Invio.Extensions.DependencyInjection</PackageId>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
     <PackageReference Include="Invio.Extensions.Reflection" Version="1.0.4" />
   </ItemGroup>

@@ -43,7 +43,7 @@ public void ConfigureServices(IServiceCollection services) {
 }
 ```
 
-This lambda works well for trivial dependencies, but what if the creation of `ExampleService` was complex? Perhaps it requires a few dependencies that are defined in your `IServiceProvider` as well as some decisions based upon configuration defined in `appsettings.json` that have been modularized into [Microsoft's Options framework](https://docs.asp.net/en/latest/fundamentals/configuration.html)? It could become unwieldly, like this:
+This lambda works well for trivial dependencies, but what if the creation of `ExampleService` was complex? Perhaps it requires a few dependencies that are defined in your `IServiceProvider` as well as some decisions based upon configuration defined in `appsettings.json` that have been modularized into [Microsoft's Options framework](https://docs.asp.net/en/latest/fundamentals/configuration.html)? It could become unwieldy, like this:
 
 ```csharp
 // Complex implementationFactory example

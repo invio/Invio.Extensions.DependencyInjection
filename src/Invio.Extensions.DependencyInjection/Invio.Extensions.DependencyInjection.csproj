@@ -18,7 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
-    <PackageReference Include="Invio.Extensions.Reflection" Version="1.0.4" />
+    <PackageReference Include="Invio.Extensions.Reflection" Version="1.0.6" />
   </ItemGroup>
 
 </Project>
